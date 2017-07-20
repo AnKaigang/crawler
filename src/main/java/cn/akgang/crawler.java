@@ -24,17 +24,16 @@ public class crawler {
         RequestLogHandler requestLogHandler = new RequestLogHandler();
 
         // 设置context
-        WebAppContext context = new WebAppContext();
-        context.setContextPath("/");
-
-        context.setResourceBase("./src/main/webapp");
-
+        WebAppContext webapp = new WebAppContext();
+        webapp.setContextPath("/");
+        String war = "src/main/webapp";
+        webapp.setWar(war);
 
         // PS:嵌入式的Jetty，应用当前工程的ClassPath，如果不设置将使用WebAppClassLoder，WEB-INF/lib目录加载jar。
-        context.setClassLoader(Thread.currentThread().getContextClassLoader());
-        context.setParentLoaderPriority(true);
+        webapp.setClassLoader(Thread.currentThread().getContextClassLoader());
+        webapp.setParentLoaderPriority(true);
 
-        handlers.setHandlers(new Handler[]{context, new DefaultHandler(), requestLogHandler});
+        handlers.setHandlers(new Handler[]{webapp, new DefaultHandler(), requestLogHandler});
         server.setHandler(handlers);
 
 

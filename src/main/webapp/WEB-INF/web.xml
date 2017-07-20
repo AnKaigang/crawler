@@ -14,7 +14,7 @@
         </jsp-property-group>
     </jsp-config>
     <servlet>
-        <servlet-name>ztj</servlet-name>
+        <servlet-name>crawler</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
@@ -22,16 +22,16 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>crawler</servlet-name>-->
+        <!--<url-pattern>/</url-pattern>-->
+    <!--</servlet-mapping>-->
     <servlet-mapping>
-        <servlet-name>ztj</servlet-name>
-        <url-pattern>/</url-pattern>
+        <servlet-name>crawler</servlet-name>
+        <url-pattern>*.crawl</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ztj</servlet-name>
-        <url-pattern>*.html</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ztj</servlet-name>
+        <servlet-name>crawler</servlet-name>
         <url-pattern>*.json</url-pattern>
     </servlet-mapping>
 

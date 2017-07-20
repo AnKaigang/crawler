@@ -11,6 +11,16 @@ public class RequestQueue {
 
     private Long paramId;
 
+    private String hFrom;
+
+    private String hTo;
+
+    private String pFrom;
+
+    private String pTo;
+
+    private Integer sortNum;
+
     public Long getId() {
         return id;
     }
@@ -49,5 +59,45 @@ public class RequestQueue {
 
     public void setParamId(Long paramId) {
         this.paramId = paramId;
+    }
+
+    public String gethFrom() {
+        return hFrom;
+    }
+
+    public void sethFrom(String hFrom) {
+        this.hFrom = hFrom == null ? null : hFrom.trim();
+    }
+
+    public String gethTo() {
+        return hTo;
+    }
+
+    public void sethTo(String hTo) {
+        this.hTo = hTo == null ? null : hTo.trim();
+    }
+
+    public String getpFrom() {
+        return pFrom;
+    }
+
+    public void setpFrom(String pFrom) {
+        this.pFrom = pFrom == null ? null : pFrom.trim();
+    }
+
+    public String getpTo() {
+        return pTo;
+    }
+
+    public void setpTo(String pTo) {
+        this.pTo = pTo == null ? null : pTo.trim();
+    }
+
+    public Integer getSortNum() {
+        return sortNum;
+    }
+
+    public void setSortNum(Integer sortNum) {
+        this.sortNum = sortNum;
     }
 }

@@ -7,6 +7,11 @@
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="header_id" property="headerId" jdbcType="BIGINT" />
     <result column="param_id" property="paramId" jdbcType="BIGINT" />
+    <result column="h_from" property="hFrom" jdbcType="VARCHAR" />
+    <result column="h_to" property="hTo" jdbcType="VARCHAR" />
+    <result column="p_from" property="pFrom" jdbcType="VARCHAR" />
+    <result column="p_to" property="pTo" jdbcType="VARCHAR" />
+    <result column="sort_num" property="sortNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -67,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, request_id, url, header_id, param_id
+    id, request_id, url, header_id, param_id, h_from, h_to, p_from, p_to, sort_num
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.akgang.entity.RequestQueueExample" >
     select
@@ -102,9 +107,13 @@
   </delete>
   <insert id="insert" parameterType="cn.akgang.entity.RequestQueue" >
     insert into request_queue (id, request_id, url, 
-      header_id, param_id)
+      header_id, param_id, h_from, 
+      h_to, p_from, p_to, sort_num
+      )
     values (#{id,jdbcType=BIGINT}, #{requestId,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR}, 
-      #{headerId,jdbcType=BIGINT}, #{paramId,jdbcType=BIGINT})
+      #{headerId,jdbcType=BIGINT}, #{paramId,jdbcType=BIGINT}, #{hFrom,jdbcType=VARCHAR}, 
+      #{hTo,jdbcType=VARCHAR}, #{pFrom,jdbcType=VARCHAR}, #{pTo,jdbcType=VARCHAR}, #{sortNum,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.akgang.entity.RequestQueue" >
     insert into request_queue
@@ -124,6 +133,21 @@
       <if test="paramId != null" >
         param_id,
       </if>
+      <if test="hFrom != null" >
+        h_from,
+      </if>
+      <if test="hTo != null" >
+        h_to,
+      </if>
+      <if test="pFrom != null" >
+        p_from,
+      </if>
+      <if test="pTo != null" >
+        p_to,
+      </if>
+      <if test="sortNum != null" >
+        sort_num,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -140,6 +164,21 @@
       </if>
       <if test="paramId != null" >
         #{paramId,jdbcType=BIGINT},
+      </if>
+      <if test="hFrom != null" >
+        #{hFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="hTo != null" >
+        #{hTo,jdbcType=VARCHAR},
+      </if>
+      <if test="pFrom != null" >
+        #{pFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="pTo != null" >
+        #{pTo,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNum != null" >
+        #{sortNum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -167,6 +206,21 @@
       <if test="record.paramId != null" >
         param_id = #{record.paramId,jdbcType=BIGINT},
       </if>
+      <if test="record.hFrom != null" >
+        h_from = #{record.hFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hTo != null" >
+        h_to = #{record.hTo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pFrom != null" >
+        p_from = #{record.pFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pTo != null" >
+        p_to = #{record.pTo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortNum != null" >
+        sort_num = #{record.sortNum,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -178,7 +232,12 @@
       request_id = #{record.requestId,jdbcType=BIGINT},
       url = #{record.url,jdbcType=VARCHAR},
       header_id = #{record.headerId,jdbcType=BIGINT},
-      param_id = #{record.paramId,jdbcType=BIGINT}
+      param_id = #{record.paramId,jdbcType=BIGINT},
+      h_from = #{record.hFrom,jdbcType=VARCHAR},
+      h_to = #{record.hTo,jdbcType=VARCHAR},
+      p_from = #{record.pFrom,jdbcType=VARCHAR},
+      p_to = #{record.pTo,jdbcType=VARCHAR},
+      sort_num = #{record.sortNum,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -198,6 +257,21 @@
       <if test="paramId != null" >
         param_id = #{paramId,jdbcType=BIGINT},
       </if>
+      <if test="hFrom != null" >
+        h_from = #{hFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="hTo != null" >
+        h_to = #{hTo,jdbcType=VARCHAR},
+      </if>
+      <if test="pFrom != null" >
+        p_from = #{pFrom,jdbcType=VARCHAR},
+      </if>
+      <if test="pTo != null" >
+        p_to = #{pTo,jdbcType=VARCHAR},
+      </if>
+      <if test="sortNum != null" >
+        sort_num = #{sortNum,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -206,7 +280,12 @@
     set request_id = #{requestId,jdbcType=BIGINT},
       url = #{url,jdbcType=VARCHAR},
       header_id = #{headerId,jdbcType=BIGINT},
-      param_id = #{paramId,jdbcType=BIGINT}
+      param_id = #{paramId,jdbcType=BIGINT},
+      h_from = #{hFrom,jdbcType=VARCHAR},
+      h_to = #{hTo,jdbcType=VARCHAR},
+      p_from = #{pFrom,jdbcType=VARCHAR},
+      p_to = #{pTo,jdbcType=VARCHAR},
+      sort_num = #{sortNum,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

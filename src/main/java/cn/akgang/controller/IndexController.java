@@ -1,6 +1,7 @@
 package cn.akgang.controller;
 
 import cn.akgang.entity.Header;
+import cn.akgang.service.CrawlService;
 import cn.akgang.service.IndexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,9 +19,13 @@ public class IndexController {
     @Autowired
     private IndexService indexService;
 
-    @RequestMapping(value = {"", "/", "index"}, method = RequestMethod.GET)
+    @Autowired
+    private CrawlService crawlService;
+
+    @RequestMapping(value = {"index"}, method = RequestMethod.GET)
     public String index() {
         List<Header> headerList=indexService.getAllHeaderList();
-        return "/index";
+        crawlService.crawl(1l);
+        return "index";
     }
 }

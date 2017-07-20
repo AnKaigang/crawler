@@ -17,11 +17,11 @@
     </appender>
 
 
-    <root level="INFO">
+    <root level="TRACE">
         <appender-ref ref="STDOUT"/>
     </root>
 
-    <logger name="org.mybatis.generator.internal.db.DatabaseIntrospector" level="INFO"/>
+    <logger name="org.mybatis.generator.internal.db.DatabaseIntrospector" level="TRACE"/>
     <logger name="org.springframework.web.servlet.DispatcherServlet" level="INFO"/>
     <logger name="org.springframework.jdbc.core.JdbcTemplate" level="DEBUG"/>
     <logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="TRACE"/>

@@ -413,6 +413,346 @@ public class RequestQueueExample {
             addCriterion("param_id not between", value1, value2, "paramId");
             return (Criteria) this;
         }
+
+        public Criteria andHFromIsNull() {
+            addCriterion("h_from is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHFromIsNotNull() {
+            addCriterion("h_from is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHFromEqualTo(String value) {
+            addCriterion("h_from =", value, "hFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andHFromNotEqualTo(String value) {
+            addCriterion("h_from <>", value, "hFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andHFromGreaterThan(String value) {
+            addCriterion("h_from >", value, "hFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andHFromGreaterThanOrEqualTo(String value) {
+            addCriterion("h_from >=", value, "hFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andHFromLessThan(String value) {
+            addCriterion("h_from <", value, "hFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andHFromLessThanOrEqualTo(String value) {
+            addCriterion("h_from <=", value, "hFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andHFromLike(String value) {
+            addCriterion("h_from like", value, "hFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andHFromNotLike(String value) {
+            addCriterion("h_from not like", value, "hFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andHFromIn(List<String> values) {
+            addCriterion("h_from in", values, "hFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andHFromNotIn(List<String> values) {
+            addCriterion("h_from not in", values, "hFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andHFromBetween(String value1, String value2) {
+            addCriterion("h_from between", value1, value2, "hFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andHFromNotBetween(String value1, String value2) {
+            addCriterion("h_from not between", value1, value2, "hFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andHToIsNull() {
+            addCriterion("h_to is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHToIsNotNull() {
+            addCriterion("h_to is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHToEqualTo(String value) {
+            addCriterion("h_to =", value, "hTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andHToNotEqualTo(String value) {
+            addCriterion("h_to <>", value, "hTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andHToGreaterThan(String value) {
+            addCriterion("h_to >", value, "hTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andHToGreaterThanOrEqualTo(String value) {
+            addCriterion("h_to >=", value, "hTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andHToLessThan(String value) {
+            addCriterion("h_to <", value, "hTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andHToLessThanOrEqualTo(String value) {
+            addCriterion("h_to <=", value, "hTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andHToLike(String value) {
+            addCriterion("h_to like", value, "hTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andHToNotLike(String value) {
+            addCriterion("h_to not like", value, "hTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andHToIn(List<String> values) {
+            addCriterion("h_to in", values, "hTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andHToNotIn(List<String> values) {
+            addCriterion("h_to not in", values, "hTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andHToBetween(String value1, String value2) {
+            addCriterion("h_to between", value1, value2, "hTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andHToNotBetween(String value1, String value2) {
+            addCriterion("h_to not between", value1, value2, "hTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPFromIsNull() {
+            addCriterion("p_from is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPFromIsNotNull() {
+            addCriterion("p_from is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPFromEqualTo(String value) {
+            addCriterion("p_from =", value, "pFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andPFromNotEqualTo(String value) {
+            addCriterion("p_from <>", value, "pFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andPFromGreaterThan(String value) {
+            addCriterion("p_from >", value, "pFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andPFromGreaterThanOrEqualTo(String value) {
+            addCriterion("p_from >=", value, "pFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andPFromLessThan(String value) {
+            addCriterion("p_from <", value, "pFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andPFromLessThanOrEqualTo(String value) {
+            addCriterion("p_from <=", value, "pFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andPFromLike(String value) {
+            addCriterion("p_from like", value, "pFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andPFromNotLike(String value) {
+            addCriterion("p_from not like", value, "pFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andPFromIn(List<String> values) {
+            addCriterion("p_from in", values, "pFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andPFromNotIn(List<String> values) {
+            addCriterion("p_from not in", values, "pFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andPFromBetween(String value1, String value2) {
+            addCriterion("p_from between", value1, value2, "pFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andPFromNotBetween(String value1, String value2) {
+            addCriterion("p_from not between", value1, value2, "pFrom");
+            return (Criteria) this;
+        }
+
+        public Criteria andPToIsNull() {
+            addCriterion("p_to is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPToIsNotNull() {
+            addCriterion("p_to is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPToEqualTo(String value) {
+            addCriterion("p_to =", value, "pTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPToNotEqualTo(String value) {
+            addCriterion("p_to <>", value, "pTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPToGreaterThan(String value) {
+            addCriterion("p_to >", value, "pTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPToGreaterThanOrEqualTo(String value) {
+            addCriterion("p_to >=", value, "pTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPToLessThan(String value) {
+            addCriterion("p_to <", value, "pTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPToLessThanOrEqualTo(String value) {
+            addCriterion("p_to <=", value, "pTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPToLike(String value) {
+            addCriterion("p_to like", value, "pTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPToNotLike(String value) {
+            addCriterion("p_to not like", value, "pTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPToIn(List<String> values) {
+            addCriterion("p_to in", values, "pTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPToNotIn(List<String> values) {
+            addCriterion("p_to not in", values, "pTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPToBetween(String value1, String value2) {
+            addCriterion("p_to between", value1, value2, "pTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPToNotBetween(String value1, String value2) {
+            addCriterion("p_to not between", value1, value2, "pTo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNumIsNull() {
+            addCriterion("sort_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNumIsNotNull() {
+            addCriterion("sort_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNumEqualTo(Integer value) {
+            addCriterion("sort_num =", value, "sortNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNumNotEqualTo(Integer value) {
+            addCriterion("sort_num <>", value, "sortNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNumGreaterThan(Integer value) {
+            addCriterion("sort_num >", value, "sortNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("sort_num >=", value, "sortNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNumLessThan(Integer value) {
+            addCriterion("sort_num <", value, "sortNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNumLessThanOrEqualTo(Integer value) {
+            addCriterion("sort_num <=", value, "sortNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNumIn(List<Integer> values) {
+            addCriterion("sort_num in", values, "sortNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNumNotIn(List<Integer> values) {
+            addCriterion("sort_num not in", values, "sortNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNumBetween(Integer value1, Integer value2) {
+            addCriterion("sort_num between", value1, value2, "sortNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andSortNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("sort_num not between", value1, value2, "sortNum");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
