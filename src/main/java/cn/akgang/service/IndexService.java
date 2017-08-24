@@ -3,7 +3,6 @@ package cn.akgang.service;
 import cn.akgang.dao.HeaderMapper;
 import cn.akgang.entity.Header;
 import cn.akgang.entity.HeaderExample;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

@@ -1,6 +1,8 @@
 package cn.akgang.entity;
 
-public class Menu {
+import java.io.Serializable;
+
+public class Menu  implements Serializable {
     private Long id;
 
     private Long requestId;

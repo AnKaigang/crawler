@@ -7,6 +7,10 @@ public class Header {
 
     private Long keyid;
 
+    private String key;
+
+    private String value;
+
     private Date createdAt;
 
     private Date updatedAt;
@@ -25,6 +29,22 @@ public class Header {
 
     public void setKeyid(Long keyid) {
         this.keyid = keyid;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key == null ? null : key.trim();
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value == null ? null : value.trim();
     }
 
     public Date getCreatedAt() {

@@ -1,6 +1,8 @@
 package cn.akgang.entity;
 
-public class RequestQueue {
+import java.io.Serializable;
+
+public class RequestQueue  implements Serializable {
     private Long id;
 
     private Long requestId;

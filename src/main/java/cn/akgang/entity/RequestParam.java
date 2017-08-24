@@ -1,8 +1,9 @@
 package cn.akgang.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class RequestParam {
+public class RequestParam  implements Serializable {
     private Long id;
 
     private Long keyId;

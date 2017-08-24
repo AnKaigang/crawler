@@ -1,8 +1,9 @@
 package cn.akgang.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class SourceData {
+public class SourceData  implements Serializable {
     private Long id;
 
     private String desc;

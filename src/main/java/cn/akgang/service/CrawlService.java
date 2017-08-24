@@ -1,18 +1,18 @@
 package cn.akgang.service;
 
-import cn.akgang.dao.HeaderMapper;
 import cn.akgang.dao.ParamMapper;
 import cn.akgang.dao.RequestJobMapper;
 import cn.akgang.dao.RequestQueueMapper;
-import cn.akgang.entity.RequestJob;
-import cn.akgang.entity.RequestJobExample;
-import cn.akgang.entity.RequestQueue;
-import cn.akgang.entity.RequestQueueExample;
+import cn.akgang.entity.*;
+import cn.akgang.util.HttpUtil;
 import cn.akgang.util.MemCacheUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by akgang on 2017/7/20.
@@ -21,7 +21,7 @@ import java.util.List;
 public class CrawlService {
 
     @Autowired
-    private HeaderMapper headerMapper;
+    private HeaderService headerService;
 
     @Autowired
     private ParamMapper paramMapper;
@@ -32,12 +32,32 @@ public class CrawlService {
     @Autowired
     private RequestJobMapper requestJobMapper;
 
-    public void crawl(Long jobId) {
+    public void crawl(Long jobId) throws Exception {
+        List<RequestQueue> queueList = getAllQueueByJob(jobId);
+        for (RequestQueue item : queueList) {
+            Map<String, String> header = new HashMap<String, String>();
+            if (item.getHeaderId() != null) {
+                List<Header> headerList = headerService.getHeaderByKeyId(item.getHeaderId());
+                for (Header h : headerList) {
+                    header.put(h.getKey(), h.getValue());
+                }
+            }
+            try {
+
+
+                String result = HttpUtil.sendHttpGet(item.getUrl(), header,  "utf-8");
+                System.out.println(result);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
 
     }
 
     public List<RequestJob> getAllJob() {
-        List<RequestJob> allJob = (List<RequestJob>) MemCacheUtil.get("job-list");
+//        List<RequestJob> allJob = (List<RequestJob>) MemCacheUtil.get("job-list");
+        List<RequestJob> allJob = null;
         if (allJob == null) {
             allJob = requestJobMapper.selectByExample(new RequestJobExample());
         }

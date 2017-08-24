@@ -1,8 +1,9 @@
 package cn.akgang.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Store {
+public class Store  implements Serializable {
     private Long id;
 
     private String name;

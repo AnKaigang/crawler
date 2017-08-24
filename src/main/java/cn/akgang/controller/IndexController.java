@@ -1,6 +1,5 @@
 package cn.akgang.controller;
 
-import cn.akgang.entity.Header;
 import cn.akgang.entity.RequestJob;
 import cn.akgang.service.CrawlService;
 import cn.akgang.service.IndexService;
@@ -29,6 +28,13 @@ public class IndexController {
 //        List<Header> headerList = indexService.getAllHeaderList();
         List<RequestJob> jobList = crawlService.getAllJob();
         model.addAttribute("jobList", jobList);
+        return "index";
+    }
+
+
+    @RequestMapping(value = {"job/startJob"}, method = RequestMethod.GET)
+    public String startCraw(Model model,Long jobId) throws Exception {
+        crawlService.crawl(jobId);
         return "index";
     }
 }

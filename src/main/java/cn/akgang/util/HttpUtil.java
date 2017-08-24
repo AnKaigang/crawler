@@ -4,6 +4,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.GzipCompressingEntity;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -14,8 +15,10 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.*;
-import java.util.Map.Entry;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by akgang on 2017/5/25.
@@ -41,11 +44,9 @@ public class HttpUtil {
         HttpPost httpPost = generatorPostRequest(url, header, paramMap, jsonBody, charset);
         String result = null;
         HttpResponse response = httpClient.execute(httpPost);
-        if (response != null) {
-            HttpEntity resEntity = response.getEntity();
-            if (resEntity != null) {
-                result = EntityUtils.toString(resEntity, charset);
-            }
+        HttpEntity resEntity = processResponse(response);
+        if (resEntity != null) {
+            result = EntityUtils.toString(resEntity, charset);
         }
         return result;
     }
@@ -61,14 +62,12 @@ public class HttpUtil {
      */
     public static String sendHttpsPost(String url, Map<String, String> header, Map<String, String> paramMap, String jsonBody, String charset) throws Exception {
         HttpClient httpClient = new SSLClient();
-        HttpPost httpPost = generatorPostRequest(url, header, paramMap, jsonBody, charset);
+        HttpPost httpsPost = generatorPostRequest(url, header, paramMap, jsonBody, charset);
         String result = null;
-        HttpResponse response = httpClient.execute(httpPost);
-        if (response != null) {
-            HttpEntity resEntity = response.getEntity();
-            if (resEntity != null) {
-                result = EntityUtils.toString(resEntity, charset);
-            }
+        HttpResponse response = httpClient.execute(httpsPost);
+        HttpEntity resEntity = processResponse(response);
+        if (resEntity != null) {
+            result = EntityUtils.toString(resEntity, charset);
         }
         return result;
     }
@@ -87,13 +86,20 @@ public class HttpUtil {
         HttpClient httpClient = new DefaultHttpClient();
         String result = null;
         HttpResponse response = httpClient.execute(httpGet);
-        if (response != null) {
-            HttpEntity resEntity = response.getEntity();
-            if (resEntity != null) {
-                result = EntityUtils.toString(resEntity, charset);
-            }
+        HttpEntity resEntity = processResponse(response);
+        if (resEntity != null) {
+            result = EntityUtils.toString(resEntity, charset);
         }
         return result;
+    }
+
+    private static HttpEntity processResponse(HttpResponse response) {
+        String responseValue = response.getEntity().getContentEncoding().getValue();
+        if ("gzip".equals(responseValue)) {
+            return new GzipCompressingEntity(response.getEntity());
+        } else {
+            return response.getEntity();
+        }
     }
 
     /**
@@ -110,11 +116,9 @@ public class HttpUtil {
         HttpGet httpGet = generatorGetRequest(url, header);
         String result = null;
         HttpResponse response = httpClient.execute(httpGet);
-        if (response != null) {
-            HttpEntity resEntity = response.getEntity();
-            if (resEntity != null) {
-                result = EntityUtils.toString(resEntity, charset);
-            }
+        HttpEntity resEntity = processResponse(response);
+        if (resEntity != null) {
+            result = EntityUtils.toString(resEntity, charset);
         }
         return result;
     }
@@ -166,11 +170,20 @@ public class HttpUtil {
      * @throws UnsupportedEncodingException
      */
     public static HttpGet generatorGetRequest(String url, Map<String, String> header) throws UnsupportedEncodingException {
+        Map<String, String> defaultHeader = new HashMap<String, String>();
+        defaultHeader.put("Host", "meituan.com");
+        defaultHeader.put("User-Agent", " Mozilla/5.0 (Windows NT 6.1; WOW64; rv:36.0) Gecko/20100101 Firefox/36.0");
+        defaultHeader.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8");
+        defaultHeader.put("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3");
+        defaultHeader.put("Accept-Encoding", "gzip, deflate");
+        defaultHeader.put("Referer", "http://waimai.meituan.com/");
+        defaultHeader.put("connection", "keep-alive");
+        defaultHeader.putAll(header);
         HttpGet httpGet = new HttpGet(url);
         //设置请求头
         if (header != null) {
-            for (String key : header.keySet()) {
-                httpGet.setHeader(key, header.get(key));
+            for (String key : defaultHeader.keySet()) {
+                httpGet.setHeader(key, defaultHeader.get(key));
             }
         }
         return httpGet;

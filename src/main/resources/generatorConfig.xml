@@ -36,10 +36,10 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <!--&lt;!&ndash;生成对应表及类名&ndash;&gt;-->
-        <!--<table tableName="header" domainObjectName="Header" enableCountByExample="true" enableUpdateByExample="true"-->
-               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>-->
-        <!--&lt;!&ndash;生成对应表及类名&ndash;&gt;-->
+        <!--生成对应表及类名-->
+        <table tableName="header" domainObjectName="Header" enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+        <!--生成对应表及类名-->
         <!--<table tableName="dictionary" domainObjectName="Dictionary" enableCountByExample="true" enableUpdateByExample="true"-->
                <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>-->
         <!--&lt;!&ndash;生成对应表及类名&ndash;&gt;-->
@@ -55,7 +55,7 @@
         <!--<table tableName="store" domainObjectName="Store" enableCountByExample="true" enableUpdateByExample="true"-->
                <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>-->
         <!--生成对应表及类名-->
-        <table tableName="request_queue" domainObjectName="RequestQueue" enableCountByExample="true" enableUpdateByExample="true"
-               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
+        <!--<table tableName="request_queue" domainObjectName="RequestQueue" enableCountByExample="true" enableUpdateByExample="true"-->
+               <!--enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>-->
     </context>
 </generatorConfiguration>

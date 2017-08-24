@@ -6,6 +6,7 @@ import cn.akgang.entity.RequestJobExample;
 import cn.akgang.util.MemCacheUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class JobService {
 
     public List<RequestJob> getAllJob() {
         List<RequestJob> allJob = (List<RequestJob>) MemCacheUtil.get("job-list");
-        if (allJob == null) {
+        if (CollectionUtils.isEmpty(allJob)) {
             allJob = requestJobMapper.selectByExample(new RequestJobExample());
         }
         MemCacheUtil.set("job-list", allJob);
