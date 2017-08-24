@@ -66,7 +66,8 @@ public class CrawlService {
     }
 
     public List<RequestQueue> getAllQueueByJob(Long jobId) {
-        List<RequestQueue> queueList = (List<RequestQueue>) MemCacheUtil.get("queue-list-jonId-" + jobId);
+        List<RequestQueue> queueList = null;
+        //(List<RequestQueue>) MemCacheUtil.get("queue-list-jonId-" + jobId);
         if (queueList == null) {
             RequestQueueExample example = new RequestQueueExample();
             RequestQueueExample.Criteria requestQueueExampleCriteria = example.createCriteria();
