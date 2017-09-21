@@ -3,7 +3,7 @@ package cn.akgang.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Store  implements Serializable {
+public class Store implements Serializable {
     private Long id;
 
     private String name;
@@ -17,6 +17,13 @@ public class Store  implements Serializable {
     private Date createdAt;
 
     private Date updatedAt;
+    private String monthSaleCount;
+    private String distance;
+    private String deliveryTime;
+    private String deliverFee;
+    private String avgPrice;
+    private String discount;
+    private String minDeliverFee;
 
     public Long getId() {
         return id;
@@ -72,5 +79,80 @@ public class Store  implements Serializable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public void setMonthSaleCount(String monthSaleCount) {
+        this.monthSaleCount = monthSaleCount;
+    }
+
+    public String getMonthSaleCount() {
+        return monthSaleCount;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDeliveryTime(String deliveryTime) {
+        this.deliveryTime = deliveryTime;
+    }
+
+    public String getDeliveryTime() {
+        return deliveryTime;
+    }
+
+    public void setDeliverFee(String deliverFee) {
+        this.deliverFee = deliverFee;
+    }
+
+    public String getDeliverFee() {
+        return deliverFee;
+    }
+
+    public void setAvgPrice(String avgPrice) {
+        this.avgPrice = avgPrice;
+    }
+
+    public String getAvgPrice() {
+        return avgPrice;
+    }
+
+    public String getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    @Override
+    public String toString() {
+        return "Store{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", pos='" + pos + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", monthSaleCount='" + monthSaleCount + '\'' +
+                ", distance='" + distance + '\'' +
+                ", deliveryTime='" + deliveryTime + '\'' +
+                ", deliverFee='" + deliverFee + '\'' +
+                ", avgPrice='" + avgPrice + '\'' +
+                ", discount='" + discount + '\'' +
+                '}';
+    }
+
+    public void setMinDeliverFee(String minDeliverFee) {
+        this.minDeliverFee = minDeliverFee;
+    }
+
+    public String getMinDeliverFee() {
+        return minDeliverFee;
     }
 }

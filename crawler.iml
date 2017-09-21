@@ -125,5 +125,7 @@
     <orderEntry type="library" name="Maven: javax.servlet.jsp.jstl:jstl-api:1.2" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet.jsp:jsp-api:2.1" level="project" />
+    <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.35" level="project" />
+    <orderEntry type="library" name="classes_dex2jar" level="project" />
   </component>
 </module>
