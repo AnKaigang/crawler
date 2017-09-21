@@ -325,17 +325,49 @@ public class HttpUtil {
 
             System.out.println(store);
             param.clear();
+//            param.put("uuid", "52322AC9917F651089E9C1AE2BA845BC2940D8E5392A118A6E9EA6E873A38ACE");
+//            param.put("wm_logintoken", "");
+//            param.put("request_id", "49DAE257-3234-40FF-9ED5-CAABD2DF5E54");
+//            param.put("poilist_mt_cityid", "1");
+//            param.put("wm_actual_longitude", "116597192");
+//            param.put("wm_actual_latitude", "39924267");
+//            param.put("trace_tag", "{\\\"action\\\":\\\"click\\\",\\\"src_page\\\":\\\"p_category\\\",\\\"src_block\\\":\\\"b_poilist\\\",\\\"src_item_id\\\":\\\"991466\\\",\\\"src_item_index\\\":\\\"0\\\",\\\"tgt_page\\\":\\\"p_poi\\\",\\\"req_time\\\":\\\"1503566564109\\\",\\\"extra\\\":\\\"{\\\\\\\"friend_comment\\\\\\\":\\\\\\\"2\\\\\\\",\\\\\\\"ad\\\\\\\":\\\\\\\"\\\\\\\"}\\\",\\\"tgt_block\\\":\\\"[\\\\\\\"b_shoppingcart\\\\\\\", \\\\\\\"b_increase\\\\\\\", \\\\\\\"b_decrease\\\\\\\", \\\\\\\"b_food_area\\\\\\\"]\\\"}");
+//            param.put("wm_did", "862963034145140");
+//            param.put("userid", "0");
+//            param.put("wm_longitude", "116597192");
+//            param.put("wm_channel", "1011");
+//            param.put("poilist_wm_cityid", "110100");
+//            param.put("version", "5.9.5");
+//            param.put("push_token", "dpshfb89a695de47657830aa6f906a556b44atpu");
+//            param.put("wm_appversion", "5.9.5");
+//            param.put("wm_latitude", "39924267");
+//            param.put("wm_mac", "02:00:00:00:00:00");
+//            param.put("wm_ctype", "android");
+//            param.put("trace_id", "408");
+//            param.put("app", "4");
+//            param.put("wm_visitid", "d0920016-71e6-44d1-8641-2271ab724022");
+//            param.put("platform", "4");
+//            param.put("seq_id", "410");
+//            param.put("wm_dversion", "23_6.0");
+//            param.put("wm_uuid", "52322AC9917F651089E9C1AE2BA845BC2940D8E5392A118A6E9EA6E873A38ACE");
+//            param.put("wm_dtype", "Redmi Note 4");
+//            param.put("page_index", "0");
+//            param.put("wm_poi_id", "991466");
+//            param.put("partner", "4");
+
             param.put("uuid", "52322AC9917F651089E9C1AE2BA845BC2940D8E5392A118A6E9EA6E873A38ACE");
             param.put("wm_logintoken", "");
             param.put("request_id", "49DAE257-3234-40FF-9ED5-CAABD2DF5E54");
             param.put("poilist_mt_cityid", "1");
             param.put("wm_actual_longitude", "116597192");
             param.put("wm_actual_latitude", "39924267");
-            param.put("trace_tag", "{\"action\":\"click\",\"src_page\":\"p_category\",\"src_block\":\"b_poilist\",\"src_item_id\":\"" + jsonStore.getString("id") + "\",\"src_item_index\":\"0\",\"tgt_page\":\"p_poi\",\"req_time\":\"1503566564109\",\"extra\":\"{\\\"friend_comment\\\":\\\"2\\\",\\\"ad\\\":\\\"\\\"}\",\"tgt_block\":\"[\\\"b_shoppingcart\\\", \\\"b_increase\\\", \\\"b_decrease\\\", \\\"b_food_area\\\"]\"}");
+            param.put("req_time", "1503566564232");
+            param.put("trace_tag", "{\"action\":\"click\",\"src_page\":\"p_category\",\"src_block\":\"b_poilist\",\"src_item_id\":\"991466\",\"src_item_index\":\"0\",\"tgt_page\":\"p_poi\",\"req_time\":\"1503566564109\",\"extra\":\"{\\\"friend_comment\\\":\\\"2\\\",\\\"ad\\\":\\\"\\\"}\",\"tgt_block\":\"[\\\"b_shoppingcart\\\", \\\"b_increase\\\", \\\"b_decrease\\\", \\\"b_food_area\\\"]\"}");
             param.put("wm_did", "862963034145140");
             param.put("userid", "0");
             param.put("wm_longitude", "116597192");
             param.put("wm_channel", "1011");
+            param.put("wm_seq", "77");
             param.put("poilist_wm_cityid", "110100");
             param.put("version", "5.9.5");
             param.put("push_token", "dpshfb89a695de47657830aa6f906a556b44atpu");
@@ -354,34 +386,50 @@ public class HttpUtil {
             param.put("page_index", "0");
             param.put("wm_poi_id", "991466");
             param.put("partner", "4");
+
+
             BigInteger localBigInteger1 = new BigInteger("AC14E4A51F1B8E11A95971CA4EBD7E2314631F137596A66A43FA2D792B2FD8447CBD6553D591F00A8B9D58E8BA33C229317A0D122C965D84A286114A963C3AE2694C81665D5AF04C80A71CBF350CD4C66280DC8FADBE6B8EDA7B2EC3D0C50E150850445EF84D3A4192662AC135D912C2CA2C68176D79EC64CACFF34089482B69", 16);
             BigInteger localBigInteger2 = new BigInteger("010001", 16);
+
             RSAPublicKey localRSAPublicKey = (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new RSAPublicKeySpec(localBigInteger1, localBigInteger2));
-            Cipher localCipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
-            localCipher.init(1, localRSAPublicKey);
-            byte[] arrayOfByte1 = "/api/v8/poi/food/C9E9F92555682D2CC3A87759B6C0A50F12D66F83D02B69C72BEC16F31A4219E6/1503566564232/123".toString().getBytes();
+            Cipher localCipher = Cipher.getInstance("RSA");
+            localCipher.init(Cipher.ENCRYPT_MODE, localRSAPublicKey);
+            byte[] arrayOfByte1 = "/api/v8/poi/food/C9E9F92555682D2CC3A87759B6C0A50F12D66F83D02B69C72BEC16F31A4219E6/1503566564232/77".toString().getBytes();
             int j = arrayOfByte1.length;
             ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
+            int ii = 0;
             int k = 0;
-            if (j - i > 0) {
-                if (j - i > 117) {
-                }
-                for (byte[] arrayOfByte3 = localCipher.doFinal(arrayOfByte1, i, 117); ; arrayOfByte3 = localCipher.doFinal(arrayOfByte1, i, j - i)) {
+            if (j - ii > 0) {
+                if ((j - ii) < 117) {
+                    byte[] arrayOfByte3 = localCipher.doFinal(arrayOfByte1, ii, arrayOfByte1.length);
                     localByteArrayOutputStream.write(arrayOfByte3, 0, arrayOfByte3.length);
-                    int m = k + 1;
-                    i = m * 117;
-                    k = m;
-                    break;
+                } else {
+                    int length = 0;
+                    for (byte[] arrayOfByte3 = localCipher.doFinal(arrayOfByte1, ii, 117); ; arrayOfByte3 = localCipher.doFinal(arrayOfByte1, ii, length)) {
+                        localByteArrayOutputStream.write(arrayOfByte3, 0, arrayOfByte3.length);
+                        int m = k + 1;
+                        ii = m * 117;
+                        k = m;
+                        if (j - ii > 117) {
+                            length = 117;
+                        } else {
+                            length = j - ii;
+                        }
+                    }
                 }
+
             }
             byte[] arrayOfByte2 = localByteArrayOutputStream.toByteArray();
             localByteArrayOutputStream.close();
-            String str = new String(Base64Utils.encode(arrayOfByte2),"ASCII");
+            String str = new String(Base64Utils.encode(arrayOfByte2), "ASCII");
             System.out.println(str);
-            param.put("req_time", "1503566564232");
-            param.put("wm_seq", "77");
-
+            System.out.println("PVr/RWlWWEzXvW9Qtoh65H3gGCQ5CALfg+GsSQ8Rqm8Gtsg3/bJ2HTjs20bgBQPvJR4EQS5+w5m3O6HoFN3z2qODhwrFcRwkgkx5xLAZdXplgm+8P49zHSwNeSlvm3DWIU3o54m/kgyK+4aBPnIiOYY36rJ/xQZ8lWK3TI+ZK/k=");
             param.put("waimai_sign", str);
+//            param.put("req_time", "1503566564232");
+//            param.put("wm_seq", "77");
+//
+//            param.put("waimai_sign", "PVr/RWlWWEzXvW9Qtoh65H3gGCQ5CALfg+GsSQ8Rqm8Gtsg3/bJ2HTjs20bgBQPvJR4EQS5+w5m3O6HoFN3z2qODhwrFcRwkgkx5xLAZdXplgm+8P49zHSwNeSlvm3DWIU3o54m/kgyK+4aBPnIiOYY36rJ/xQZ8lWK3TI+ZK/k=");
+//            HttpUtil.sendHttpPost("http://wmapi.meituan.com/api/v8/poi/food?utm_medium=android&utm_content=862963034145140&utm_term=50905&utm_source=1011&ci=1&utm_campaign=AwaimaiBwaimaiGhomepage_category_0_910_1690077__g_poilist_0_991466&uuid=52322AC9917F651089E9C1AE2BA845BC2940D8E5392A118A6E9EA6E873A38ACE&__skck=6a375bce8c66a0dc293860dfa83833ef&__skts=1503566561971&__skua=d41d8cd98f00b204e9800998ecf8427e&__skno=b8a28ea4-9836-4669-924a-5a4cc37a1215&__skcy=QBb0k9etVoT8pD9BqNTfqB1OVsw%3D", null, param, null, "utf-8");
             HttpUtil.sendHttpPost("http://wmapi.meituan.com/api/v8/poi/food?utm_medium=android&utm_content=862963034145140&utm_term=50905&utm_source=1011&ci=1&utm_campaign=AwaimaiBwaimaiGhomepage_category_0_910_1690077__g_poilist_0_991466&uuid=52322AC9917F651089E9C1AE2BA845BC2940D8E5392A118A6E9EA6E873A38ACE&__skck=6a375bce8c66a0dc293860dfa83833ef&__skts=1503566561971&__skua=d41d8cd98f00b204e9800998ecf8427e&__skno=b8a28ea4-9836-4669-924a-5a4cc37a1215&__skcy=QBb0k9etVoT8pD9BqNTfqB1OVsw%3D", null, param, null, "utf-8");
 
 
