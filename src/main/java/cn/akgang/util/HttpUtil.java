@@ -359,7 +359,7 @@ public class HttpUtil {
             RSAPublicKey localRSAPublicKey = (RSAPublicKey) KeyFactory.getInstance("RSA").generatePublic(new RSAPublicKeySpec(localBigInteger1, localBigInteger2));
             Cipher localCipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
             localCipher.init(1, localRSAPublicKey);
-            byte[] arrayOfByte1 = param.toString().getBytes();
+            byte[] arrayOfByte1 = "/api/v8/poi/food/C9E9F92555682D2CC3A87759B6C0A50F12D66F83D02B69C72BEC16F31A4219E6/1503566564232/123".toString().getBytes();
             int j = arrayOfByte1.length;
             ByteArrayOutputStream localByteArrayOutputStream = new ByteArrayOutputStream();
             int k = 0;
