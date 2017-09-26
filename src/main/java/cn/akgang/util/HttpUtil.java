@@ -5,13 +5,15 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.GzipDecompressingEntity;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.DateUtils;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
@@ -56,11 +58,34 @@ public class HttpUtil {
      * @return
      * @throws IOException
      */
-    public static String sendHttpPost(String url, Map<String, String> header, Map<String, String> paramMap, String jsonBody, String charset) throws IOException {
-        HttpClient httpClient = new DefaultHttpClient();
+    public static String sendHttpPost(String url, Map<String, String> header, Map<String, String> paramMap, String jsonBody, String charset) throws IOException, InterruptedException {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+
         HttpPost httpPost = generatorPostRequest(url, header, paramMap, jsonBody, charset);
+        int timeout = 10;
+        RequestConfig config = RequestConfig.custom()
+                .setConnectTimeout(timeout * 1000)
+                .setConnectionRequestTimeout(timeout * 1000)
+                .setSocketTimeout(timeout * 1000).build();
+        httpPost.setConfig(config);
         String result = null;
-        HttpResponse response = httpClient.execute(httpPost);
+        HttpResponse response = null;
+        int count = 1;
+        try {
+            response = httpClient.execute(httpPost);
+        } catch (Exception e) {
+        }
+        while (response == null || 200 != response.getStatusLine().getStatusCode()) {
+            System.out.println("失败重试第" + count++ + "次");
+            if (response != null) {
+                EntityUtils.consume(response.getEntity());
+            }
+            try {
+                response = httpClient.execute(httpPost);
+            } catch (Exception e) {
+            }
+            Thread.sleep(500);
+        }
         HttpEntity resEntity = processResponse(response);
         if (resEntity != null) {
             result = EntityUtils.toString(resEntity, charset);
@@ -99,14 +124,33 @@ public class HttpUtil {
      * @return
      * @throws IOException
      */
-    public static String sendHttpGet(String url, Map<String, String> header, String charset) throws IOException {
-//        Document doc= Jsoup.connect(url).post();
-
+    public static String sendHttpGet(String url, Map<String, String> header, String charset) throws IOException, InterruptedException {
         HttpGet httpGet = generatorGetRequest(url, header);
-        HttpClient httpClient = new DefaultHttpClient();
+        int timeout = 10;
+        RequestConfig config = RequestConfig.custom()
+                .setConnectTimeout(timeout * 1000)
+                .setConnectionRequestTimeout(timeout * 1000)
+                .setSocketTimeout(timeout * 1000).build();
+        httpGet.setConfig(config);
+        CloseableHttpClient httpClient = HttpClients.createDefault();
         String result = null;
-//        httpClient.getParams().setPsetCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
-        HttpResponse response = httpClient.execute(httpGet);
+        HttpResponse response = null;
+        int count = 1;
+        try {
+            response = httpClient.execute(httpGet);
+        } catch (Exception e) {
+        }
+        while (response == null || 200 != response.getStatusLine().getStatusCode()) {
+            System.out.println("失败重试第" + count++ + "次");
+            if (response != null) {
+                EntityUtils.consume(response.getEntity());
+            }
+            try {
+                response = httpClient.execute(httpGet);
+            } catch (Exception e) {
+            }
+            Thread.sleep(500);
+        }
         HttpEntity resEntity = processResponse(response);
         if (resEntity != null) {
             result = EntityUtils.toString(resEntity, charset);
@@ -243,11 +287,11 @@ public class HttpUtil {
     }
 
     public static void main(String[] args) throws IOException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IllegalBlockSizeException, InterruptedException {
-        File file = new File("content" + DateUtils.formatDate(new Date(), "yyyy-MM-dd"));
+        File file = new File("content-" + DateUtils.formatDate(new Date(), "yyyy-MM-dd"));
         if (!file.exists()) {
             file.createNewFile();
         }
-        List<String> uaList=new LinkedList<String>();
+        List<String> uaList = new LinkedList<String>();
         uaList.add("Mozilla/5.0(Macintosh;U;IntelMacOSX10_6_8;en-us)AppleWebKit/534.50(KHTML,likeGecko)Version/5.1Safari/534.50");
         uaList.add("Mozilla/5.0(Windows;U;WindowsNT6.1;en-us)AppleWebKit/534.50(KHTML,likeGecko)Version/5.1Safari/534.50");
         uaList.add("Mozilla/5.0(compatible;MSIE9.0;WindowsNT6.1;Trident/5.0");
@@ -264,13 +308,13 @@ public class HttpUtil {
         uaList.add("Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1)");
         uaList.add("Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;AvantBrowser)");
         String fileContent = "";
-        for (int i = 1; i<100000; i++) {
-            int index= (int) (Math.random()*10000);
+        for (int i = 1; i < 100000; i++) {
+            int index = (int) (Math.random() * 10000);
             Map<String, String> header = new HashMap<String, String>();
-            header.put("cache-control","no-cache");
-            header.put("Content-Type","application/x-www-form-urlencoded");
-            int uaIndex= (int) (Math.random()*uaList.size());
-            header.put("User-Agent",uaList.get(uaIndex));
+            header.put("cache-control", "no-cache");
+            header.put("Content-Type", "application/x-www-form-urlencoded");
+            int uaIndex = (int) (Math.random() * uaList.size());
+            header.put("User-Agent", uaList.get(uaIndex));
 //
             Map<String, String> param = new HashMap<String, String>();
             param.put("tableId", "24");
@@ -294,25 +338,28 @@ public class HttpUtil {
             }
             for (Element element : arrayA) {
                 String href = element.attr("href");
+                String title = element.html();
+                fileContent += title + "\n";
+                FileUtils.writeStringToFile(file, fileContent, "utf-8", true);
+                fileContent = "";
                 href = href.replace("javascript:commitForECMA(callbackC,'", "");
                 href = href.replace("',null)", "");
-                uaIndex= (int) (Math.random()*uaList.size());
-                header.put("User-Agent",uaList.get(uaIndex));
                 String contentHtml = HttpUtil.sendHttpGet("http://app1.sfda.gov.cn/datasearch/face3/" + href, header, "utf-8");
                 Document contentDocument = Jsoup.parse(contentHtml);
                 Elements contentArray = contentDocument.select(".listmain tr");
                 for (Element elementTr : contentArray) {
                     Elements elementsTd = elementTr.getElementsByTag("td");
-                    if (elementsTd != null && elementsTd.size() >= 2&&StringUtils.isNotEmpty(elementsTd.get(0).html())) {
+                    if (elementsTd != null && elementsTd.size() >= 2 && StringUtils.isNotEmpty(elementsTd.get(0).html())) {
                         fileContent += elementsTd.get(0).html() + ":";
                         fileContent += elementsTd.get(1).html() + "\n";
                     }
                 }
+                fileContent = fileContent + "\n" + "\n" + "\n";
+                FileUtils.writeStringToFile(file, fileContent, "utf-8", true);
+                fileContent = "";
             }
-            fileContent = fileContent + "\n" + "\n" + "\n";
             Thread.sleep(5000);
         }
-        FileUtils.writeStringToFile(file, fileContent, "utf-8");
 
     }
 
