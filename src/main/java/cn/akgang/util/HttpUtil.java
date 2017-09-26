@@ -247,7 +247,7 @@ public class HttpUtil {
         if (!file.exists()) {
             file.createNewFile();
         }
-        List<String> uaList=new LinkedList<String>();
+        List<String> uaList = new LinkedList<String>();
         uaList.add("Mozilla/5.0(Macintosh;U;IntelMacOSX10_6_8;en-us)AppleWebKit/534.50(KHTML,likeGecko)Version/5.1Safari/534.50");
         uaList.add("Mozilla/5.0(Windows;U;WindowsNT6.1;en-us)AppleWebKit/534.50(KHTML,likeGecko)Version/5.1Safari/534.50");
         uaList.add("Mozilla/5.0(compatible;MSIE9.0;WindowsNT6.1;Trident/5.0");
@@ -264,56 +264,53 @@ public class HttpUtil {
         uaList.add("Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1)");
         uaList.add("Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;AvantBrowser)");
         String fileContent = "";
-        for (int i = 1; i<100000; i++) {
-            int index= (int) (Math.random()*10000);
+        for (int i = 1; i < 100000; i++) {
+            int index = (int) (Math.random() * 10000);
             Map<String, String> header = new HashMap<String, String>();
-            header.put("cache-control","no-cache");
-            header.put("Content-Type","application/x-www-form-urlencoded");
-            int uaIndex= (int) (Math.random()*uaList.size());
-            header.put("User-Agent",uaList.get(uaIndex));
+            header.put("cache-control", "no-cache");
+            header.put("Content-Type", "application/x-www-form-urlencoded");
+            int uaIndex = (int) (Math.random() * uaList.size());
+//            header.put("User-Agent",uaList.get(uaIndex));
+////
+//            Map<String, String> param = new HashMap<String, String>();
+//            param.put("tableId", "24");
+//            param.put("State", "1");
+//            param.put("bcId", "118715593187347941914723540896");
+//            param.put("curstart", String.valueOf(index));
+//            param.put("tableName", "TABLE24");
+//            param.put("viewtitleName", "COLUMN159");
+//            param.put("viewsubTitleName", "COLUMN158");
+//            param.put("tableView", "GSP%25E8%25AE%25A4%25E8%25AF%2581");
+//            param.put("cid", "0");
+//            param.put("ytableId", "0");
+//            param.put("searchType", "search");
 //
-            Map<String, String> param = new HashMap<String, String>();
-            param.put("tableId", "24");
-            param.put("State", "1");
-            param.put("bcId", "118715593187347941914723540896");
-            param.put("curstart", String.valueOf(index));
-            param.put("tableName", "TABLE24");
-            param.put("viewtitleName", "COLUMN159");
-            param.put("viewsubTitleName", "COLUMN158");
-            param.put("tableView", "GSP%25E8%25AE%25A4%25E8%25AF%2581");
-            param.put("cid", "0");
-            param.put("ytableId", "0");
-            param.put("searchType", "search");
-
-            String resultStr = HttpUtil.sendHttpPost("http://app1.sfda.gov.cn/datasearch/face3/search.jsp", header, param, null, "utf-8");
-            Document document = Jsoup.parse(resultStr);
-            Elements arrayA = document.select("a[href]");
-            if (arrayA == null || arrayA.size() == 0) {
-                System.out.println(document.body().html());
-                continue;
-            }
-            for (Element element : arrayA) {
-                String href = element.attr("href");
-                href = href.replace("javascript:commitForECMA(callbackC,'", "");
-                href = href.replace("',null)", "");
-                uaIndex= (int) (Math.random()*uaList.size());
-                header.put("User-Agent",uaList.get(uaIndex));
-                String contentHtml = HttpUtil.sendHttpGet("http://app1.sfda.gov.cn/datasearch/face3/" + href, header, "utf-8");
-                Document contentDocument = Jsoup.parse(contentHtml);
-                Elements contentArray = contentDocument.select(".listmain tr");
-                for (Element elementTr : contentArray) {
-                    Elements elementsTd = elementTr.getElementsByTag("td");
-                    if (elementsTd != null && elementsTd.size() >= 2&&StringUtils.isNotEmpty(elementsTd.get(0).html())) {
-                        fileContent += elementsTd.get(0).html() + ":";
-                        fileContent += elementsTd.get(1).html() + "\n";
-                    }
+//            String resultStr = HttpUtil.sendHttpPost("http://app1.sfda.gov.cn/datasearch/face3/search.jsp", header, param, null, "utf-8");
+//            Document document = Jsoup.parse(resultStr);
+//            Elements arrayA = document.select("a[href]");
+//            if (arrayA == null || arrayA.size() == 0) {
+//                System.out.println(document.body().html());
+//                continue;
+//            }
+//            for (Element element : arrayA) {
+//            String href = element.attr("href");
+//            href = href.replace("javascript:commitForECMA(callbackC,'", "");
+//            href = href.replace("',null)", "");
+//            uaIndex = (int) (Math.random() * uaList.size());
+            header.put("User-Agent", uaList.get(uaIndex));
+            String contentHtml = HttpUtil.sendHttpGet("http://app1.sfda.gov.cn/datasearch/face3/content.jsp?tableId=24&tableName=TABLE24&tableView=GSP认证&Id=" + i + "", header, "utf-8");
+            Document contentDocument = Jsoup.parse(contentHtml);
+            Elements contentArray = contentDocument.select(".listmain tr");
+            for (Element elementTr : contentArray) {
+                Elements elementsTd = elementTr.getElementsByTag("td");
+                if (elementsTd != null && elementsTd.size() >= 2 && StringUtils.isNotEmpty(elementsTd.get(0).html())) {
+                    fileContent += elementsTd.get(0).html() + ":";
+                    fileContent += elementsTd.get(1).html() + "\n";
                 }
             }
-            fileContent = fileContent + "\n" + "\n" + "\n";
-            Thread.sleep(5000);
         }
+        fileContent = fileContent + "\n";
+        Thread.sleep(5000);
         FileUtils.writeStringToFile(file, fileContent, "utf-8");
-
     }
-
 }
