@@ -216,9 +216,9 @@ public class HttpUtil {
         defaultHeader.put("Accept-Language", "zh-CN,zh;q=0.8,en;q=0.6");
         defaultHeader.put("Cache-Control", "no-cache");
         defaultHeader.put("Connection", "Keep-Alive");
-        defaultHeader.put("Upgrade-Insecure-Requests:", "1");
+        defaultHeader.put("Upgrade-Insecure-Requests", "1");
         defaultHeader.put("Content-Type", "application/x-www-form-urlencoded;");
-        defaultHeader.put("Cookie", "JSESSIONID=6C0EAC78128E20A65CCB1A8AB3755E83.7; FSSBBIl1UgzbN7N80T=1f6KyRoZ2ewEcmiCTZ8pXsPERbS7G7XNAgI1Zoyka07cntux4xWCuzuoJVZHzzIwIRH42zrIKutR.0E0KWyCJjT6Jp5DHvmlFUM1D0d.sw.5tarOzNC2QToW1w8lcsyHNgEVal708lV_wUSyRqy5Kg5nFCJ3oHEBIK9OwWUsgbZNVDq; FSSBBIl1UgzbN7N80S=wdyNt8FP1MR4F1_g9zl4CMEJClxtuaMvzf26C_CvWoW7fJUrv0MbN7al4.NLCVAz; _gscu_1586185021=06342291xdo2la20; _gscbrs_1586185021=1; _gscu_1358151024=06346012o2nbav42; _gscs_1358151024=06346012rsxe6h42|pv:5; _gscbrs_1358151024=1; yunsuo_session_verify=71537107a85fd749a2c078615bfbd4b0");
+        defaultHeader.put("Cookie", "JSESSIONID=68742BDB60582231DF701D8570C92E09.7; FSSBBIl1UgzbN7N80S=NUfZnhE6yDbvFyG.Wx95y.lhOF.oCU5FvhEkeA.iozklT7_O_hVIGOs2q.QGjFoC; _gscu_1358151024=07541171ndhjgz16; _gscbrs_1358151024=1; FSSBBIl1UgzbN7N80T=11hdgCdmSpGedx2KoTwdDtBWcsFmSWqZYD9ZLtemNn8xT7m8JBnW1cLxP3JOA_SBmiR1GNYc1WS.K2Th_fw7dCJiTSK_mR781NaIV31a8o7lAF2Q3LES_FB2KHwUhxB43GHm9cPhFd6Cvg8dEmOalmVCbBnGPhoaJ8KBQDyNvJW84OArbwI.jc5rrtr6tEWFz8a3_MtUIdb2s10ZALebIg7cFDOA0AFLysvtwEsuu85c7hLsjXWVHYaV_5WO8CRx.F5fy.ULhdtSdHXcrq_2vKQU188xQHjlx09CROKXRAbo9XK.HKfFOk_KpcqtnON.IHFa");
         defaultHeader.putAll(header);
         //设置请求头
         if (defaultHeader != null) {
