@@ -280,11 +280,15 @@ public class HttpUtil {
     }
 
     public static void main(String[] args) throws IOException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IllegalBlockSizeException, InterruptedException {
+        System.setProperty("http.maxRedirects", "50");
+        System.getProperties().setProperty("proxySet", "true");
+        System.getProperties().setProperty("http.proxyHost", "183.135.4.78");
+        System.getProperties().setProperty("http.proxyPort", "808");
         CFDAService cfdaService = (CFDAService) context.getBean("CFDAService");
         //todo 如果想增加线程数，请更改此参数，目前测试单ip最大64就会报错
         Executor preCacheExecutor = Executors.newFixedThreadPool(1);
-        for (int i = 1; i < 100000; i++) {
-            int index = (int) (Math.random() * 10000);
+        for (int i = 1; i < 150000; i++) {
+            int index = (int) (Math.random() * 150000);
             preCacheExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -311,73 +315,38 @@ public class HttpUtil {
                     int uaIndex = (int) (Math.random() * uaList.size());
                     header.put("User-Agent", uaList.get(uaIndex));
 //
-                    Map<String, String> param = new HashMap<String, String>();
-                    param.put("tableId", "24");
-                    param.put("State", "1");
-                    param.put("bcId", "118715593187347941914723540896");
-                    param.put("curstart", String.valueOf(index));
-                    param.put("tableName", "TABLE24");
-                    param.put("viewtitleName", "COLUMN159");
-                    param.put("viewsubTitleName", "COLUMN158");
-                    param.put("tableView", "GSP%25E8%25AE%25A4%25E8%25AF%2581");
-                    param.put("cid", "0");
-                    param.put("ytableId", "0");
-                    param.put("searchType", "search");
-
-                    String resultStr = null;
-                    try {
-                        resultStr = HttpUtil.sendHttpPost("http://app1.sfda.gov.cn/datasearch/face3/search.jsp", header, param, null, "utf-8");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        return;
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                        return;
-                    }
-                    Document document = Jsoup.parse(resultStr);
-                    Elements arrayA = document.select("a[href]");
-                    if (arrayA == null || arrayA.size() == 0) {
-                        System.out.println(document.body().html());
-                        return;
-                    }
-                    for (Element element : arrayA) {
-                        String href = element.attr("href");
-                        String title = element.html();
-                        String id = title.split("\\.")[0];
-                        String name = title.split("\\.")[1];
-                        if (!cfdaService.isExistsByStoreId(id)) {
-                            CFDA cfda = new CFDA();
-                            cfda.setStoreId(id);
-                            cfda.setStoreName(name);
-                            href = href.replace("javascript:commitForECMA(callbackC,'", "");
-                            href = href.replace("',null)", "");
-                            String contentHtml = null;
-                            try {
-                                contentHtml = HttpUtil.sendHttpGet("http://app1.sfda.gov.cn/datasearch/face3/" + href, header, "utf-8");
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                continue;
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                                continue;
-                            }
-                            Document contentDocument = Jsoup.parse(contentHtml);
-                            Elements contentArray = contentDocument.select(".listmain tr");
-                            for (Element elementTr : contentArray) {
-                                Elements elementsTd = elementTr.getElementsByTag("td");
-                                if (elementsTd != null && elementsTd.size() >= 2 && StringUtils.isNotEmpty(elementsTd.get(0).html())) {
-                                    cfda = setCFDAPropertity(cfda, elementsTd.get(0).html(), elementsTd.get(1).html());
-                                }
-                            }
-                            cfdaService.addNewCFDA(cfda);
+                    String strIndex = String.valueOf(index);
+                    if (!cfdaService.isExistsByStoreId(strIndex)) {
+                        CFDA cfda = new CFDA();
+                        String contentHtml = null;
+                        try {
+                            contentHtml = HttpUtil.sendHttpGet("http://app1.sfda.gov.cn/datasearch/face3/content.jsp?tableId=24&tableName=TABLE24&tableView=GSP认证&Id=" + strIndex, header, "utf-8");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            return;
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                            return;
                         }
+                        if(StringUtils.isEmpty(contentHtml)){
+                            return;
+                        }
+                        cfda.setStoreId(strIndex);
+                        Document contentDocument = Jsoup.parse(contentHtml);
+                        Elements contentArray = contentDocument.select(".listmain tr");
+                        for (Element elementTr : contentArray) {
+                            Elements elementsTd = elementTr.getElementsByTag("td");
+                            if (elementsTd != null && elementsTd.size() >= 2 && StringUtils.isNotEmpty(elementsTd.get(0).html())) {
+                                cfda = setCFDAPropertity(cfda, elementsTd.get(0).html(), elementsTd.get(1).html());
+                            }
+                        }
+                        cfdaService.addNewCFDA(cfda);
                     }
                     try {
                         Thread.sleep(5000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                         return;
-
                     }
                 }
             });

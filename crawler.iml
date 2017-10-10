@@ -127,5 +127,6 @@
     <orderEntry type="library" name="Maven: javax.servlet.jsp:jsp-api:2.1" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.35" level="project" />
     <orderEntry type="library" name="classes_dex2jar" level="project" />
+    <orderEntry type="library" name="proxyc-1.8.3" level="project" />
   </component>
 </module>
