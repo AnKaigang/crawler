@@ -84,8 +84,9 @@ public class HttpUtil {
             try {
                 response = httpClient.execute(httpPost);
             } catch (Exception e) {
+            }finally {
+                Thread.sleep(3000);
             }
-            Thread.sleep(500);
         }
         HttpEntity resEntity = processResponse(response);
         if (resEntity != null) {
@@ -149,8 +150,9 @@ public class HttpUtil {
             try {
                 response = httpClient.execute(httpGet);
             } catch (Exception e) {
+            }finally {
+                Thread.sleep(3000);
             }
-            Thread.sleep(500);
         }
         HttpEntity resEntity = processResponse(response);
         if (resEntity != null) {
@@ -310,7 +312,8 @@ public class HttpUtil {
                     header.put("Content-Type", "application/x-www-form-urlencoded");
                     int uaIndex = (int) (Math.random() * uaList.size());
                     header.put("User-Agent", uaList.get(uaIndex));
-//
+
+
                     Map<String, String> param = new HashMap<String, String>();
                     param.put("tableId", "24");
                     param.put("State", "1");
