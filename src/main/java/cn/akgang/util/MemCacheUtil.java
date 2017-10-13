@@ -15,7 +15,7 @@ public class MemCacheUtil {
 
     static {
         //memcached服务器
-        String[] servers = {"127.0.0.1:11211"};
+        String[] servers = {"192.168.10.158:11211"};
         /**
          * 设置连接池可用cache服务器的权重，和server数组的位置一一对应
          */
@@ -82,5 +82,9 @@ public class MemCacheUtil {
 
     public static Object set(String key, Object value) {
         return set(key, value, 60 * 60);
+    }
+
+    public static boolean clear(String key) {
+        return client.delete(key);
     }
 }

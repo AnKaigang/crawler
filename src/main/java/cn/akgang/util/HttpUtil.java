@@ -2,6 +2,10 @@ package cn.akgang.util;
 
 import cn.akgang.entity.CFDA;
 import cn.akgang.service.CFDAService;
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.ScriptResult;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -16,10 +20,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -27,11 +27,15 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -267,7 +271,6 @@ public class HttpUtil {
         defaultHeader.put("Connection", "Keep-Alive");
         defaultHeader.put("Upgrade-Insecure-Requests:", "1");
         defaultHeader.put("Content-Type", "application/x-www-form-urlencoded;");
-        defaultHeader.put("Cookie", "JSESSIONID=6C0EAC78128E20A65CCB1A8AB3755E83.7; FSSBBIl1UgzbN7N80T=1f6KyRoZ2ewEcmiCTZ8pXsPERbS7G7XNAgI1Zoyka07cntux4xWCuzuoJVZHzzIwIRH42zrIKutR.0E0KWyCJjT6Jp5DHvmlFUM1D0d.sw.5tarOzNC2QToW1w8lcsyHNgEVal708lV_wUSyRqy5Kg5nFCJ3oHEBIK9OwWUsgbZNVDq; FSSBBIl1UgzbN7N80S=wdyNt8FP1MR4F1_g9zl4CMEJClxtuaMvzf26C_CvWoW7fJUrv0MbN7al4.NLCVAz; _gscu_1586185021=06342291xdo2la20; _gscbrs_1586185021=1; _gscu_1358151024=06346012o2nbav42; _gscs_1358151024=06346012rsxe6h42|pv:5; _gscbrs_1358151024=1; yunsuo_session_verify=71537107a85fd749a2c078615bfbd4b0");
         defaultHeader.putAll(header);
         HttpGet httpGet = new HttpGet(url);
         //设置请求头
@@ -279,68 +282,101 @@ public class HttpUtil {
         return httpGet;
     }
 
-    public static void main(String[] args) throws IOException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IllegalBlockSizeException, InterruptedException {
-        System.setProperty("http.maxRedirects", "50");
-        System.getProperties().setProperty("proxySet", "true");
-        System.getProperties().setProperty("http.proxyHost", "183.135.4.78");
-        System.getProperties().setProperty("http.proxyPort", "808");
-        CFDAService cfdaService = (CFDAService) context.getBean("CFDAService");
+    public static void main(String[] args) throws IOException, IOException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IllegalBlockSizeException, InterruptedException {
+        final CFDAService cfdaService = (CFDAService) context.getBean("CFDAService");
         //todo 如果想增加线程数，请更改此参数，目前测试单ip最大64就会报错
-        Executor preCacheExecutor = Executors.newFixedThreadPool(1);
+        Executor preCacheExecutor = Executors.newFixedThreadPool(40);
         for (int i = 1; i < 150000; i++) {
-            int index = (int) (Math.random() * 150000);
+            final int index = (int) (Math.random() * 150000);
+            if(MemCacheUtil.get(String.valueOf(index))!=null&&(Boolean)MemCacheUtil.get(String.valueOf(index))){
+                continue;
+            }
+            MemCacheUtil.set(String.valueOf(index),true);
             preCacheExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
-                    List<String> uaList = new LinkedList<String>();
-                    uaList.add("Mozilla/5.0(Macintosh;U;IntelMacOSX10_6_8;en-us)AppleWebKit/534.50(KHTML,likeGecko)Version/5.1Safari/534.50");
-                    uaList.add("Mozilla/5.0(Windows;U;WindowsNT6.1;en-us)AppleWebKit/534.50(KHTML,likeGecko)Version/5.1Safari/534.50");
-                    uaList.add("Mozilla/5.0(compatible;MSIE9.0;WindowsNT6.1;Trident/5.0");
-                    uaList.add("Mozilla/4.0(compatible;MSIE8.0;WindowsNT6.0;Trident/4.0)");
-                    uaList.add("Mozilla/5.0(Macintosh;IntelMacOSX10.6;rv:2.0.1)Gecko/20100101Firefox/4.0.1");
-                    uaList.add("Mozilla/5.0(WindowsNT6.1;rv:2.0.1)Gecko/20100101Firefox/4.0.1");
-                    uaList.add("Opera/9.80(Macintosh;IntelMacOSX10.6.8;U;en)Presto/2.8.131Version/11.11");
-                    uaList.add("Opera/9.80(WindowsNT6.1;U;en)Presto/2.8.131Version/11.11");
-                    uaList.add("Mozilla/5.0(Macintosh;IntelMacOSX10_7_0)AppleWebKit/535.11(KHTML,likeGecko)Chrome/17.0.963.56Safari/535.11");
-                    uaList.add("Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;Maxthon2.0)");
-                    uaList.add("Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;TencentTraveler4.0)");
-                    uaList.add("Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;TheWorld)");
-                    uaList.add("Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;360SE)");
-                    uaList.add("Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1)");
-                    uaList.add("Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;AvantBrowser)");
-
-                    Map<String, String> header = new HashMap<String, String>();
-                    header.put("cache-control", "no-cache");
-                    header.put("Content-Type", "application/x-www-form-urlencoded");
-                    int uaIndex = (int) (Math.random() * uaList.size());
-                    header.put("User-Agent", uaList.get(uaIndex));
+//                    List<String> uaList = new LinkedList<String>();
+//                    uaList.add("Mozilla/5.0(Macintosh;U;IntelMacOSX10_6_8;en-us)AppleWebKit/534.50(KHTML,likeGecko)Version/5.1Safari/534.50");
+//                    uaList.add("Mozilla/5.0(Windows;U;WindowsNT6.1;en-us)AppleWebKit/534.50(KHTML,likeGecko)Version/5.1Safari/534.50");
+//                    uaList.add("Mozilla/5.0(compatible;MSIE9.0;WindowsNT6.1;Trident/5.0");
+//                    uaList.add("Mozilla/4.0(compatible;MSIE8.0;WindowsNT6.0;Trident/4.0)");
+//                    uaList.add("Mozilla/5.0(Macintosh;IntelMacOSX10.6;rv:2.0.1)Gecko/20100101Firefox/4.0.1");
+//                    uaList.add("Mozilla/5.0(WindowsNT6.1;rv:2.0.1)Gecko/20100101Firefox/4.0.1");
+//                    uaList.add("Opera/9.80(Macintosh;IntelMacOSX10.6.8;U;en)Presto/2.8.131Version/11.11");
+//                    uaList.add("Opera/9.80(WindowsNT6.1;U;en)Presto/2.8.131Version/11.11");
+//                    uaList.add("Mozilla/5.0(Macintosh;IntelMacOSX10_7_0)AppleWebKit/535.11(KHTML,likeGecko)Chrome/17.0.963.56Safari/535.11");
+//                    uaList.add("Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;Maxthon2.0)");
+//                    uaList.add("Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;TencentTraveler4.0)");
+//                    uaList.add("Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;TheWorld)");
+//                    uaList.add("Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;360SE)");
+//                    uaList.add("Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1)");
+//                    uaList.add("Mozilla/4.0(compatible;MSIE7.0;WindowsNT5.1;AvantBrowser)");
+//
+//                    Map<String, String> header = new HashMap<String, String>();
+//                    header.put("cache-control", "no-cache");
+//                    header.put("Content-Type", "application/x-www-form-urlencoded");
+//                    int uaIndex = (int) (Math.random() * uaList.size());
+//                    header.put("User-Agent", uaList.get(uaIndex));
 //
                     String strIndex = String.valueOf(index);
                     if (!cfdaService.isExistsByStoreId(strIndex)) {
                         CFDA cfda = new CFDA();
                         String contentHtml = null;
                         try {
-                            contentHtml = HttpUtil.sendHttpGet("http://app1.sfda.gov.cn/datasearch/face3/content.jsp?tableId=24&tableName=TABLE24&tableView=GSP认证&Id=" + strIndex, header, "utf-8");
+                            WebClient webClient = new WebClient(BrowserVersion.FIREFOX_52);
+                            HtmlPage page = webClient.getPage("http://app1.sfda.gov.cn/datasearch/face3/content.jsp?tableId=24&tableName=TABLE24&tableView=GSP认证&Id=" + strIndex);
+                            if (page.asText().contains("省市")) {
+                                cfda.setStoreId(strIndex);
+                                System.out.println(page.asText());
+                                String[] arrayStr = page.asText().split("\n");
+                                for (String indexString : arrayStr) {
+                                    if (indexString.contains("\t")) {
+                                        String[] tmpArray= indexString.split("\t");
+                                        if(tmpArray!=null&&tmpArray.length>1){
+                                            cfda = setCFDAPropertity(cfda, tmpArray[0], tmpArray[1]);
+                                        }else if(tmpArray!=null&&tmpArray.length==1){
+                                            cfda = setCFDAPropertity(cfda, tmpArray[0], "");
+                                        }
+                                    }
+
+                                }
+                                cfdaService.addNewCFDA(cfda);
+
+                                return;
+                            }
+                            InputStream is = page.getWebResponse().getContentAsStream();
+                            ScriptResult result = page.executeJavaScript(is.toString());
+                            System.out.println(result);
+                            if (result.toString().contains("省市")) {
+                                cfda.setStoreId(strIndex);
+                                System.out.println(page.asText());
+                                String[] arrayStr = page.asText().split("\n");
+                                for (String indexString : arrayStr) {
+                                    if (indexString.contains("\t")) {
+                                        cfda = setCFDAPropertity(cfda, indexString.split("\t")[0], indexString.split("\t")[1]);
+                                    }
+                                }
+                                cfdaService.addNewCFDA(cfda);
+                            }
+//                            Connection d = Jsoup.connect("http://app1.sfda.gov.cn/datasearch/face3/content.jsp?tableId=24&tableName=TABLE24&tableView=GSP认证&Id=" + strIndex);
+//                            Document dd = d.get();
+//                            System.out.println(dd.body().toString());
+//                            Map map = d.response().cookies();
+//                            Set mapSet = map.keySet();
+//                            Iterator iterator = mapSet.iterator();
+//                            String cookie="JSESSIONID=6C0EAC78128E20A65CCB1A8AB3755E83.7; _gscu_1586185021=06342291xdo2la20; _gscbrs_1586185021=1; _gscu_1358151024=06346012o2nbav42; _gscs_1358151024=06346012rsxe6h42|pv:5; _gscbrs_1358151024=1; yunsuo_session_verify=71537107a85fd749a2c078615bfbd4b0;";
+//                            while (iterator.hasNext()) {
+//                                Object ob= iterator.next();
+//                                String value= (String) map.get(ob);
+//                                cookie+=ob+"="+value+";";
+//                            }
+//                            cookie=cookie.substring(0,cookie.length()-1);
+//                            header.put("Cookie",cookie);
+//                            contentHtml = HttpUtil.sendHttpGet("http://app1.sfda.gov.cn/datasearch/face3/content.jsp?tableId=24&tableName=TABLE24&tableView=GSP认证&Id=" + strIndex, header, "utf-8");
                         } catch (IOException e) {
                             e.printStackTrace();
                             return;
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                            return;
                         }
-                        if(StringUtils.isEmpty(contentHtml)){
-                            return;
-                        }
-                        cfda.setStoreId(strIndex);
-                        Document contentDocument = Jsoup.parse(contentHtml);
-                        Elements contentArray = contentDocument.select(".listmain tr");
-                        for (Element elementTr : contentArray) {
-                            Elements elementsTd = elementTr.getElementsByTag("td");
-                            if (elementsTd != null && elementsTd.size() >= 2 && StringUtils.isNotEmpty(elementsTd.get(0).html())) {
-                                cfda = setCFDAPropertity(cfda, elementsTd.get(0).html(), elementsTd.get(1).html());
-                            }
-                        }
-                        cfdaService.addNewCFDA(cfda);
                     }
                     try {
                         Thread.sleep(5000);
@@ -381,6 +417,9 @@ public class HttpUtil {
                     break;
                 case "注":
                     cfda.setStoreAttention(value);
+                    break;
+                case "企业名称":
+                    cfda.setStoreName(value);
                     break;
                 default:
                     break;
