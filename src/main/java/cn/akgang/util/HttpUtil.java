@@ -285,7 +285,7 @@ public class HttpUtil {
     public static void main(String[] args) throws IOException, IOException, InvalidKeyException, NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeySpecException, BadPaddingException, IllegalBlockSizeException, InterruptedException {
         final CFDAService cfdaService = (CFDAService) context.getBean("CFDAService");
         //todo 如果想增加线程数，请更改此参数，目前测试单ip最大64就会报错
-        Executor preCacheExecutor = Executors.newFixedThreadPool(40);
+        Executor preCacheExecutor = Executors.newFixedThreadPool(45);
         for (int i = 1; i < 150000; i++) {
             final int index = (int) (Math.random() * 150000);
             if(MemCacheUtil.get(String.valueOf(index))!=null&&(Boolean)MemCacheUtil.get(String.valueOf(index))){
