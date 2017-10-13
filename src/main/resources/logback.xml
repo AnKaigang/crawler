@@ -27,5 +27,6 @@
     <logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="DEBUG"/>
     <logger name="org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor"
             level="INFO"/>
+    <logger name="cn.akgang.util.HttpUtil" level="DEBUG"/>
 
 </configuration>

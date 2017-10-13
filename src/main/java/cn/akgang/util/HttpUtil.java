@@ -286,12 +286,12 @@ public class HttpUtil {
         final CFDAService cfdaService = (CFDAService) context.getBean("CFDAService");
         //todo 如果想增加线程数，请更改此参数，目前测试单ip最大64就会报错
         Executor preCacheExecutor = Executors.newFixedThreadPool(45);
-        for (int i = 1; i < 150000; i++) {
-            final int index = (int) (Math.random() * 150000);
-            if(MemCacheUtil.get(String.valueOf(index))!=null&&(Boolean)MemCacheUtil.get(String.valueOf(index))){
+        for (int i = 0; i < 1000; i++) {
+            final int index = (int) (Math.random() * 250000);
+            if (MemCacheUtil.get(String.valueOf(index)) != null && (Boolean) MemCacheUtil.get(String.valueOf(index))) {
                 continue;
             }
-            MemCacheUtil.set(String.valueOf(index),true);
+            MemCacheUtil.set(String.valueOf(index), true);
             preCacheExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -331,10 +331,10 @@ public class HttpUtil {
                                 String[] arrayStr = page.asText().split("\n");
                                 for (String indexString : arrayStr) {
                                     if (indexString.contains("\t")) {
-                                        String[] tmpArray= indexString.split("\t");
-                                        if(tmpArray!=null&&tmpArray.length>1){
+                                        String[] tmpArray = indexString.split("\t");
+                                        if (tmpArray != null && tmpArray.length > 1) {
                                             cfda = setCFDAPropertity(cfda, tmpArray[0], tmpArray[1]);
-                                        }else if(tmpArray!=null&&tmpArray.length==1){
+                                        } else if (tmpArray != null && tmpArray.length == 1) {
                                             cfda = setCFDAPropertity(cfda, tmpArray[0], "");
                                         }
                                     }
