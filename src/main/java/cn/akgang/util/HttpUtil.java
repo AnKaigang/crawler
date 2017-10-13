@@ -288,10 +288,10 @@ public class HttpUtil {
         Executor preCacheExecutor = Executors.newFixedThreadPool(45);
         for (int i = 0; i < 1000; i++) {
             final int index = (int) (Math.random() * 250000);
-            if (MemCacheUtil.get(String.valueOf(index)) != null && (Boolean) MemCacheUtil.get(String.valueOf(index))) {
-                continue;
-            }
-            MemCacheUtil.set(String.valueOf(index), true);
+//            if (MemCacheUtil.get(String.valueOf(index)) != null && (Boolean) MemCacheUtil.get(String.valueOf(index))) {
+//                continue;
+//            }
+//            MemCacheUtil.set(String.valueOf(index), true);
             preCacheExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
