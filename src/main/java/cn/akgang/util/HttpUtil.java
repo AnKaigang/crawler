@@ -286,7 +286,7 @@ public class HttpUtil {
         final CFDAService cfdaService = (CFDAService) context.getBean("CFDAService");
         //todo 如果想增加线程数，请更改此参数，目前测试单ip最大64就会报错
         Executor preCacheExecutor = Executors.newFixedThreadPool(45);
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10000; i++) {
             final int index = (int) (Math.random() * 250000);
 //            if (MemCacheUtil.get(String.valueOf(index)) != null && (Boolean) MemCacheUtil.get(String.valueOf(index))) {
 //                continue;
