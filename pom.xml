@@ -5,7 +5,7 @@
     <artifactId>crawler</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>crawler-web</name>
+    <name>crawler</name>
     <url>http://maven.apache.org</url>
     <properties>
         <spring-verison>5.0.0.RELEASE</spring-verison>
