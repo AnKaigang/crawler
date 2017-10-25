@@ -2,13 +2,13 @@ package cn.akgang.util;
 
 import com.whalin.MemCached.MemCachedClient;
 import com.whalin.MemCached.SockIOPool;
-import org.apache.tools.ant.util.DateUtils;
 
 import java.util.Calendar;
 import java.util.Date;
 
 /**
- * Created by akgang on 2017/7/20.
+ * @author akgang
+ * @date 2017/7/20
  */
 public class MemCacheUtil {
     private static MemCachedClient client = null;

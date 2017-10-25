@@ -3,7 +3,6 @@ package cn.akgang.util;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.GzipDecompressingEntity;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -18,8 +17,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -42,17 +39,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by akgang on 2017/5/25.
+ * @author akgang
+ * @date 2017/5/25
  * <p>
  * 发送http(s)请求的工具类包
  */
 public class HttpUtil {
-
-    static ApplicationContext context;
-
-    static {
-        context = new ClassPathXmlApplicationContext("applicationContext.xml");
-    }
 
     /**
      * 发送http的post请求
@@ -96,6 +88,12 @@ public class HttpUtil {
     public static String sendHttpsPost(String url, Map<String, String> header, Map<String, String> paramMap, String jsonBody, String charset) throws Exception {
         CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(createSSLConnSocketFactory()).build();
         HttpPost httpsPost = generatorPostRequest(url, header, paramMap, jsonBody, charset);
+        int timeout = 10;
+        RequestConfig config = RequestConfig.custom()
+                .setConnectTimeout(timeout * 1000)
+                .setConnectionRequestTimeout(timeout * 1000)
+                .setSocketTimeout(timeout * 1000).build();
+        httpsPost.setConfig(config);
         String result = null;
         HttpResponse response = resumeRequest(httpsPost, null, httpClient);
         HttpEntity resEntity = processResponse(response);
@@ -172,8 +170,14 @@ public class HttpUtil {
      * @throws Exception
      */
     public static String sendHttpsGet(String url, Map<String, String> header, String charset) throws Exception {
-        HttpClient httpClient = new SSLClient();
+        CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(createSSLConnSocketFactory()).build();
         HttpGet httpGet = generatorGetRequest(url, header);
+        int timeout = 10;
+        RequestConfig config = RequestConfig.custom()
+                .setConnectTimeout(timeout * 1000)
+                .setConnectionRequestTimeout(timeout * 1000)
+                .setSocketTimeout(timeout * 1000).build();
+        httpGet.setConfig(config);
         String result = null;
         HttpResponse response = httpClient.execute(httpGet);
         HttpEntity resEntity = processResponse(response);

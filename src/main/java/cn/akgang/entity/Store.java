@@ -1,68 +1,56 @@
 package cn.akgang.entity;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author akgang
+ */
+@Document
 public class Store implements Serializable {
-    private Long id;
 
-    private String name;
+    private String id;
 
-    private String pos;
+    private String storeName;
 
-    private Double latitude;
-
-    private Double longitude;
+    private String score;
 
     private Date createdAt;
 
     private Date updatedAt;
-    private String monthSaleCount;
-    private String distance;
-    private String deliveryTime;
-    private String deliverFee;
-    private String avgPrice;
-    private String discount;
-    private String minDeliverFee;
 
-    public Long getId() {
+    private String monthCount;
+
+    private String startPrice;
+
+    private String deliverPrice;
+
+    private String deliverTime;
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getStoreName() {
+        return storeName;
     }
 
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
+    public void setStoreName(String name) {
+        this.storeName = name == null ? null : name.trim();
     }
 
-    public String getPos() {
-        return pos;
+    public String getScore() {
+        return score;
     }
 
-    public void setPos(String pos) {
-        this.pos = pos == null ? null : pos.trim();
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public void setScore(String score) {
+        this.score = score == null ? null : score.trim();
     }
 
     public Date getCreatedAt() {
@@ -81,78 +69,50 @@ public class Store implements Serializable {
         this.updatedAt = updatedAt;
     }
 
-    public void setMonthSaleCount(String monthSaleCount) {
-        this.monthSaleCount = monthSaleCount;
+    public void setMonthCount(String monthCount) {
+        this.monthCount = monthCount;
     }
 
-    public String getMonthSaleCount() {
-        return monthSaleCount;
+    public String getMonthCount() {
+        return monthCount;
     }
 
-    public void setDistance(String distance) {
-        this.distance = distance;
+    public void setStartPrice(String startPrice) {
+        this.startPrice = startPrice;
     }
 
-    public String getDistance() {
-        return distance;
+    public String getStartPrice() {
+        return startPrice;
     }
 
-    public void setDeliveryTime(String deliveryTime) {
-        this.deliveryTime = deliveryTime;
+    public void setDeliverPrice(String deliverPrice) {
+        this.deliverPrice = deliverPrice;
     }
 
-    public String getDeliveryTime() {
-        return deliveryTime;
+    public String getDeliverPrice() {
+        return deliverPrice;
     }
 
-    public void setDeliverFee(String deliverFee) {
-        this.deliverFee = deliverFee;
+    public void setDeliverTime(String deliverTime) {
+        this.deliverTime = deliverTime;
     }
 
-    public String getDeliverFee() {
-        return deliverFee;
-    }
-
-    public void setAvgPrice(String avgPrice) {
-        this.avgPrice = avgPrice;
-    }
-
-    public String getAvgPrice() {
-        return avgPrice;
-    }
-
-    public String getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(String discount) {
-        this.discount = discount;
+    public String getDeliverTime() {
+        return deliverTime;
     }
 
     @Override
     public String toString() {
         return "Store{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", pos='" + pos + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
+                ", storeName='" + storeName + '\'' +
+                ", score='" + score + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
-                ", monthSaleCount='" + monthSaleCount + '\'' +
-                ", distance='" + distance + '\'' +
-                ", deliveryTime='" + deliveryTime + '\'' +
-                ", deliverFee='" + deliverFee + '\'' +
-                ", avgPrice='" + avgPrice + '\'' +
-                ", discount='" + discount + '\'' +
+                ", monthCount='" + monthCount + '\'' +
+                ", startPrice='" + startPrice + '\'' +
+                ", deliverPrice='" + deliverPrice + '\'' +
+                ", deliverTime='" + deliverTime + '\'' +
                 '}';
-    }
-
-    public void setMinDeliverFee(String minDeliverFee) {
-        this.minDeliverFee = minDeliverFee;
-    }
-
-    public String getMinDeliverFee() {
-        return minDeliverFee;
     }
 }

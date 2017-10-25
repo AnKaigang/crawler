@@ -1,32 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		   http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
-           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+           http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-2.0.xsd
            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
     <context:annotation-config/>
 
     <context:component-scan base-package="cn.akgang"/>
 
-    <import resource="datasource.xml"/>
-
-    <mvc:annotation-driven/>
-    <tx:annotation-driven/>
-
-    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
-        <property name="dataSource" ref="dataSource"></property>
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_NEVER"/>
+        <property name="locations">
+            <list>
+                <value>classpath:/config.properties</value>
+            </list>
+        </property>
     </bean>
-    <!--
-    <mvc:interceptors>
-        <bean class="com.huoqiu.dream.web.interceptors.LoginValidateInterceptor"></bean>
-    </mvc:interceptors>
-    -->
+
+
+    <!-- 定义mongo对象，对应的是mongodb官方jar包中的Mongo，replica-set设置集群副本的ip地址和端口 -->
+    <mongo:mongo-client id="mongo" replica-set="127.0.0.1:27017">
+    </mongo:mongo-client>
+   <!--<bean id="credential" class="com.mongodb.MongoCredential">-->
+        <!--<constructor-arg name="userName" value="akgang"/>-->
+       <!--<constructor-arg name="password" value="akgang"/>-->
+       <!--<constructor-arg name="source" value=""/>-->
+   <!--</bean>-->
+
+
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="databaseName" value="mt"></constructor-arg>
+        <constructor-arg name="mongoClient" ref="mongo"/>
+    </bean>
 
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
@@ -42,13 +51,6 @@
             </list>
         </property>
     </bean>
-
-    <bean id="transactionManager"
-          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
-
-    <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="104857600"/>
