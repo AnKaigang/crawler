@@ -8,7 +8,7 @@
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/mgmt.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/mgmt.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
+            <fileNamePattern>logs/crawler.%d{yyyy-MM-dd}.log.zip</fileNamePattern>
         </rollingPolicy>
 
         <encoder>
