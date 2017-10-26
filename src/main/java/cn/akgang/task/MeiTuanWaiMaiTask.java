@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
- *
  * @author akgang
  * @date 2017/9/27
  */
@@ -48,6 +48,7 @@ public class MeiTuanWaiMaiTask implements ITask {
             String result = HttpUtil.sendHttpGet("http://waimai.meituan.com/home/wwcd4tduky62", header, "utf-8");
             Document document = Jsoup.parse(result);
             Elements itemElements = document.select("a.rest-atag");
+            Random random = new Random();
             for (Element item : itemElements) {
                 String storeName = "无";
                 try {
@@ -92,8 +93,8 @@ public class MeiTuanWaiMaiTask implements ITask {
                 } catch (Exception e) {
 
                 }
-                Date nowDate=new Date();
-                Store store=new Store();
+                Date nowDate = new Date();
+                Store store = new Store();
                 store.setStoreName(storeName);
                 store.setScore(score);
                 store.setCreatedAt(nowDate);
@@ -105,6 +106,11 @@ public class MeiTuanWaiMaiTask implements ITask {
                 dataOperatorService.insertEntity(store);
                 String subHref = item.attr("href");
                 String href = "http://waimai.meituan.com/" + subHref;
+                Integer sleepTime = random.nextInt(10);
+                while (sleepTime == 0) {
+                    sleepTime = random.nextInt(10);
+                }
+                Thread.sleep(sleepTime * 1000L);
                 String childResult = HttpUtil.sendHttpGet(href, header, "utf-8");
                 Document childDocument = Jsoup.parse(childResult);
                 Elements foodElements = childDocument.select("div.j-pic-food");
@@ -112,29 +118,29 @@ public class MeiTuanWaiMaiTask implements ITask {
                     String foodName = "";
                     try {
                         foodName = food.select("div.np").get(0).select("span.name").get(0).html();
-                    }catch (Exception e) {
+                    } catch (Exception e) {
 
                     }
                     String saleCount = "0";
                     try {
                         saleCount = food.select("div.sale-info").get(0).select("div.sold-count").get(0).select("span").get(0).html();
 
-                    }catch (Exception e) {
+                    } catch (Exception e) {
 
                     }
                     String sureCount = "0";
                     try {
                         sureCount = food.select("div.sale-info").get(0).select("div.zan-count").get(0).html();
-                    }catch (Exception e) {
+                    } catch (Exception e) {
 
                     }
                     String price = "0.00";
                     try {
                         price = food.select("div.labels").get(0).select("div.price").get(0).select("div.only").get(0).html();
-                    }catch (Exception e) {
+                    } catch (Exception e) {
 
                     }
-                    Food tmpFood=new Food();
+                    Food tmpFood = new Food();
                     tmpFood.setStoreId(store.getId());
                     tmpFood.setFoodName(foodName);
                     tmpFood.setSaleCount(saleCount);
