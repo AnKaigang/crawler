@@ -19,8 +19,8 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        ITask task = (ITask) context.getBean(args[0]);
-        logger.info("{}开始执行",args[0]);
+        ITask task = (ITask) context.getBean("hiTask");
+        logger.info("{}开始执行","hi");
         task.execute();
     }
 }

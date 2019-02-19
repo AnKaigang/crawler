@@ -39,23 +39,23 @@
         <welcome-file>/</welcome-file>
     </welcome-file-list>
     <error-page>
-        <error-code>400</error-code>
+        <error-totalCount>400</error-totalCount>
         <location>/40x.html</location>
     </error-page>
     <error-page>
-        <error-code>404</error-code>
+        <error-totalCount>404</error-totalCount>
         <location>/40x.html</location>
     </error-page>
     <error-page>
-        <error-code>405</error-code>
+        <error-totalCount>405</error-totalCount>
         <location>/40x.html</location>
     </error-page>
     <error-page>
-        <error-code>406</error-code>
+        <error-totalCount>406</error-totalCount>
         <location>/40x.html</location>
     </error-page>
     <error-page>
-        <error-code>500</error-code>
+        <error-totalCount>500</error-totalCount>
         <location>/50x.html</location>
     </error-page>
 </web-app>

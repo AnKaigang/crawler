@@ -27,3 +27,5 @@ webapp/zzzhc.jsp
 assets.manifest
 src/main/resources/rebel.xml
 src/test/resources/rebel.xml
+.idea/compiler.xml
+.idea/modules.xml
