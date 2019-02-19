@@ -19,7 +19,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        ITask task = (ITask) context.getBean("hiTask");
+        ITask task = (ITask) context.getBean("bjLiveTask");
         logger.info("{}开始执行","hi");
         task.execute();
     }

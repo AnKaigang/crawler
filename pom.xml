@@ -6,7 +6,8 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>juliweb</module>
+        <module>crawler-web</module>
+        <module>crawler-client</module>
     </modules>
     <name>crawler</name>
     <url>http://maven.apache.org</url>
